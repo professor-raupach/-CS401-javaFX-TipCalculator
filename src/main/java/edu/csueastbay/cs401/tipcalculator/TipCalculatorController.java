@@ -22,28 +22,30 @@ public class TipCalculatorController {
 
     private BigDecimal tipPercentage = new BigDecimal(0.15); // default tip value
 
-    @FXML
-    private TextField amountTextField;
-
-    @FXML
-    private Button calculateButton;
-
-    @FXML
-    private Label tipPercentageLabel;
-
-    @FXML
-    private Slider tipPercentageSlider;
-
-    @FXML
-    private TextField tipTextField;
-
-    @FXML
-    private TextField totalTextField;
+    @FXML private TextField amountTextField;
+    @FXML private Button calculateButton;
+    @FXML private Label tipPercentageLabel;
+    @FXML private Slider tipPercentageSlider;
+    @FXML private TextField tipTextField;
+    @FXML private TextField totalTextField;
 
     @FXML
     void calculateButtonPress(ActionEvent event) {
-        BigDecimal amount = new BigDecimal(amountTextField.getText());
-        BigDecimal tip = amount.multiply(tipPercentage);
+        try {
+            BigDecimal amount = new BigDecimal(amountTextField.getText());
+            BigDecimal tip = amount.multiply(tipPercentage);
+            BigDecimal total = amount.add(tip);
+
+            tipTextField.setText(currency.format(tip));
+            totalTextField.setText(currency.format(total));
+
+        }
+        catch (NumberFormatException ex) {
+            amountTextField.setText(("Enter an amount"));
+            amountTextField.selectAll();
+            amountTextField.requestFocus();
+        }
+
     }
 
     public void initialize() {
